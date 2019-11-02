@@ -7,13 +7,18 @@
       %th Total
       %th Progress
       %th Errors
-      %th{'colspan' => 2} Actions
+      %th Started
   %tbody
     - @started_imports.each do |import|
       %tr
         %td
           = import.title
         %td
-          = '0 %'
+          = import.total_count
         %td
-          Delete
+          = import.percentage
+        %td
+          = import.errors
+        %td
+          = import.started_at
+

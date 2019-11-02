@@ -1,10 +1,7 @@
 
 RSpec.describe ImportStatus do
   let(:import) do
-    build(:import).tap do |import|
-      import.file.attach(io: StringIO.new, filename: 'nothing.csv')
-      import.save
-    end
+    create(:import)
   end
 
   let(:import_status) { described_class.new(import) }
@@ -15,12 +12,18 @@ RSpec.describe ImportStatus do
 
       expect(import.reload).to be_started
     end
+
+    it 'updates started_at attribute for import' do
+      Timecop.freeze do
+        import_status.start
+
+        expect(import.reload.started_at).to eq(Time.zone.now)
+      end
+    end
   end
 
   describe '#finish' do
     it 'updates processed and errors_count' do
-      import_status.build_import_stats
-
       3.times { import_status.increment }
 
       2.times { import_status.increment_errors }
@@ -33,10 +36,17 @@ RSpec.describe ImportStatus do
     end
 
     it 'updates import status to completed' do
-      import_status.build_import_stats
       import_status.finish
 
       expect(import.reload).to be_completed
+    end
+
+    it 'updates completed_at attribute' do
+      Timecop.freeze do
+        import_status.finish
+
+        expect(import.reload.completed_at).to eq(Time.zone.now)
+      end
     end
   end
 
@@ -52,8 +62,6 @@ RSpec.describe ImportStatus do
     it 'increments import_stats processed count' do
       import_stats = ImportStatus::ImportStats.new(import)
 
-      import_status.build_import_stats
-
       expect { import_status.increment }.to change { import_stats.get_processed }.by(1)
     end
   end
@@ -62,26 +70,7 @@ RSpec.describe ImportStatus do
     it 'increments import_stats count' do
       import_stats = ImportStatus::ImportStats.new(import)
 
-      import_status.build_import_stats
-
       expect { import_status.increment_errors }.to change { import_stats.get_errors_count }.by(1)
-    end
-  end
-
-
-  describe '.build' do
-    it 'builds ImportStats' do
-      expect(ImportStatus::ImportStats).to receive(:new)
-
-      described_class.build(import)
-    end
-  end
-
-  describe '.find' do
-    it 'doesnt build ImportStats' do
-      expect(ImportStatus::ImportStats).to_not receive(:new)
-
-      described_class.find(import)
     end
   end
 end

@@ -6,6 +6,8 @@
       %th Title
       %th Processed
       %th Errors
+      %th Started
+      %th Completed
       %th Actions
   %tbody
     - @finished_imports.each do |import|
@@ -13,7 +15,13 @@
         %td
           = import.title
         %td
-          Start
+          = import.processed
+        %td
+          = import.errors_count
+        %td
+          = import.started_at
+        %td
+          = import.completed_at
         %td
           Delete
 

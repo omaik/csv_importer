@@ -5,7 +5,7 @@ require 'csv'
 class ImportProcessor
   ALLOWED_HEADERS = %w[email first_name last_name date_of_birth import_id].freeze
   def initialize(import)
-    @import_status = ImportStatus.build(import)
+    @import_status = ImportStatus.new(import)
     @import = import
   end
 
