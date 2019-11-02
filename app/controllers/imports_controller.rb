@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ImportsController < ApplicationController
   def index
     @created_imports = Import.created
@@ -31,11 +33,9 @@ class ImportsController < ApplicationController
     @import = Import.find(params[:id])
   end
 
-  def update
-  end
+  def update; end
 
-  def destroy
-  end
+  def destroy; end
 
   private
 

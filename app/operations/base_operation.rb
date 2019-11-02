@@ -1,13 +1,13 @@
-module Imports
-  class BaseOperation
-    private
+# frozen_string_literal: true
 
-    def success(object)
-      {object: object, success: true, errors: []}
-    end
+class BaseOperation
+  private
 
-    def error(object,errors)
-      {object: object, success: false, errors: errors}
-    end
+  def success(object)
+    { object: object, success: true, errors: [] }
+  end
+
+  def error(object, errors)
+    { object: object, success: false, errors: errors }
   end
 end

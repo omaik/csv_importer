@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Imports
   class Start < BaseOperation
     def initialize(import_id)
@@ -8,7 +10,7 @@ module Imports
       import.pending!
       schedule_import_job
       success(import)
-    rescue => e
+    rescue StandardError => e
       Rails.logger.error("Exception during import start: #{e.message}")
       error(import, [e.message])
     end
