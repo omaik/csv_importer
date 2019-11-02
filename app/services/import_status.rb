@@ -19,6 +19,7 @@ class ImportStatus
 
   def finish
     import.completed!
+    import.update(processed: import_stats.get_processed, errors_count: import_stats.get_errors_count)
   end
 
   def set_total(total)
@@ -38,7 +39,6 @@ class ImportStatus
   end
 
   private
-
 
   attr_reader :import_stats, :import
 end

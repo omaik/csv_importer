@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ImportStatus
   class ImportStats
     def initialize(import)
@@ -5,7 +7,7 @@ class ImportStatus
       @redis = Redis.new
     end
 
-    [:processed, :errors_count].each do |attribute|
+    %i[processed errors_count].each do |attribute|
       define_method "get_#{attribute}" do
         redis.get("#{redis_key}:#{attribute}").to_i
       end
@@ -14,7 +16,6 @@ class ImportStatus
         redis.incr("#{redis_key}:#{attribute}")
       end
     end
-
 
     private
 

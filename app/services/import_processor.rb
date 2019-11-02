@@ -1,8 +1,9 @@
 # frozen_string_literal: true
+
 require 'csv'
 
 class ImportProcessor
-  ALLOWED_HEADERS = %i(email first_name date_of_birth import_id)
+  ALLOWED_HEADERS = %w[email first_name last_name date_of_birth import_id].freeze
   def initialize(import)
     @import_status = ImportStatus.build(import)
     @import = import
@@ -29,31 +30,34 @@ class ImportProcessor
   end
 
   def calculate_total(file_path)
-    total = %x[wc -l < "#{file_path}"].to_i - 1
+    total = `wc -l < "#{file_path}"`.to_i - 1
     import_status.set_total(total)
   end
 
   def process(file_path)
     CSV.foreach(file_path, headers: true) do |row|
       row = row.to_h.with_indifferent_access.merge(import_id: import.id)
-      break unless row_valid?(row)
-
-      process_row(row)
+      if row_valid?(row)
+        process_row(row)
+      else
+        import_status.increment_errors
+        break
+      end
     end
   end
 
   def process_row(row)
-   result = Customers::Provision.new(row).call
+    result = Customers::Provision.new(row).call
 
-   if result[:success]
-     import_status.increment
-   else
-     import_status.increment_errors
-   end
+    if result[:success]
+      import_status.increment
+    else
+      import_status.increment_errors
+    end
   end
 
   # FIXME
   def row_valid?(row)
-    row.keys == ALLOWED_HEADERS.sort
+    row.keys.sort == ALLOWED_HEADERS.sort
   end
 end
