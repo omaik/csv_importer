@@ -26,10 +26,12 @@ RSpec.describe ImportProcessor do
     expect(import.reload).to be_completed
   end
 
-  it 'sets the total count for the import' do
+  it 'sets the total count and processed for the import' do
     import_processor.call
 
-    expect(import.reload.total_count).to eq(1)
+    import.reload
+    expect(import.total_count).to eq(1)
+    expect(import.processed).to eq(1)
   end
 
   context 'with invalid data' do

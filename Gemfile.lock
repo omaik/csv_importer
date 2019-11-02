@@ -83,7 +83,8 @@ GEM
     erubis (2.7.0)
     factory_bot (5.1.1)
       activesupport (>= 4.2.0)
-    fastest-csv (0.0.4)
+    fakeredis (0.7.0)
+      redis (>= 3.2, < 5.0)
     ffi (1.11.1)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
@@ -271,7 +272,7 @@ DEPENDENCIES
   byebug
   capybara (>= 2.15)
   factory_bot
-  fastest-csv
+  fakeredis
   haml-rails (~> 2.0)
   jbuilder (~> 2.7)
   listen (>= 3.0.5, < 3.2)
