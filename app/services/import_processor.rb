@@ -38,6 +38,7 @@ class ImportProcessor
     CSV.foreach(file_path, headers: true) do |row|
       row = row.to_h.with_indifferent_access.merge(import_id: import.id)
       if row_valid?(row)
+        Sidekiq.logger.info("Processing row #{row.inspect}")
         process_row(row)
       else
         import_status.increment_errors

@@ -5,5 +5,6 @@ class ImportJob
 
   def perform(import_id)
     import = Import.find(import_id)
+    ImportProcessor.new(import).call
   end
 end
