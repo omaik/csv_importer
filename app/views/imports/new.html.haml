@@ -1,0 +1,7 @@
+= form_for @import do |form|
+  = form.label :title, "Title"
+  = form.text_field :title
+  = form.label :file, "File"
+  = form.file_field :file, accept: 'text/csv'
+  = form.submit "Create"
+
