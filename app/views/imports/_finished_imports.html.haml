@@ -1,0 +1,19 @@
+%h4
+  Finished imports
+%table.table
+  %thead
+    %tr
+      %th Title
+      %th Processed
+      %th Errors
+      %th Actions
+  %tbody
+    - @finished_imports.each do |import|
+      %tr
+        %td
+          = import.title
+        %td
+          Start
+        %td
+          Delete
+

@@ -1,11 +1,15 @@
 class ImportsController < ApplicationController
   def index
+    # CHANGE ME
+    @created_imports = Import.created
+    @started_imports = Import.started
+    @finished_imports = Import.finished
   end
 
   def create
     @import = Import.new(import_params)
     if @import.save
-      redirect_to :index
+      redirect_to imports_url
     else
       render :new
     end

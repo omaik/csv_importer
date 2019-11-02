@@ -1,0 +1,17 @@
+%h4
+  Created imports
+%table.table
+  %thead
+    %tr
+      %th Title
+      %th{'colspan' => 2} Actions
+  %tbody
+    - @created_imports.each do |import|
+      %tr
+        %td
+          = import.title
+        %td
+          Start
+        %td
+          Delete
+

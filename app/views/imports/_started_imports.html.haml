@@ -1,0 +1,19 @@
+%h4
+  Started imports
+%table.table
+  %thead
+    %tr
+      %th Title
+      %th Total
+      %th Progress
+      %th Errors
+      %th{'colspan' => 2} Actions
+  %tbody
+    - @started_imports.each do |import|
+      %tr
+        %td
+          = import.title
+        %td
+          = '0 %'
+        %td
+          Delete
