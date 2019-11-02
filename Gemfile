@@ -26,7 +26,6 @@ gem 'jbuilder', '~> 2.7'
 gem 'redis', '~> 4.0'
 
 gem 'sidekiq'
-gem 'fastest-csv'
 
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
@@ -56,6 +55,7 @@ group :test do
   gem 'selenium-webdriver'
   # Easy installation and use of web drivers to run system tests with browsers
   gem 'webdrivers'
+  gem 'factory_bot'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

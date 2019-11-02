@@ -1,6 +1,8 @@
 # frozen_string_literal: true
+require 'csv'
 
 class ImportProcessor
+  ALLOWED_HEADERS = %i(email first_name date_of_birth import_id)
   def initialize(import)
     @import_status = ImportStatus.build(import)
     @import = import
@@ -10,7 +12,8 @@ class ImportProcessor
     import_status.start
 
     with_tmp_file do |file|
-      count_total(file.path)
+      @file_path = file.path
+      calculate_total(file.path)
       process(file.path)
     end
 
@@ -19,7 +22,7 @@ class ImportProcessor
 
   private
 
-  attr_reader :import_status
+  attr_reader :import_status, :import
 
   def with_tmp_file(&block)
     import.file.attachment.open &block
@@ -31,19 +34,26 @@ class ImportProcessor
   end
 
   def process(file_path)
-    FastestCSV.foreach(file_path) do |row|
-      if row_valid?(row)
-        process_row(row)
-      end
+    CSV.foreach(file_path, headers: true) do |row|
+      row = row.to_h.with_indifferent_access.merge(import_id: import.id)
+      break unless row_valid?(row)
+
+      process_row(row)
     end
   end
 
   def process_row(row)
    result = Customers::Provision.new(row).call
+
    if result[:success]
      import_status.increment
    else
      import_status.increment_errors
    end
+  end
+
+  # FIXME
+  def row_valid?(row)
+    row.keys == ALLOWED_HEADERS.sort
   end
 end

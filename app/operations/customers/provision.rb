@@ -2,8 +2,7 @@
 
 module Customers
   class Provision < BaseOperation
-    def initialize(import, params)
-      @import = import
+    def initialize(params)
       @params = params
     end
 
@@ -17,7 +16,7 @@ module Customers
 
     def customer
       @customer ||=
-        Customer.where(email: params[:email]).where.not(import_id: import.id).first || Customer.new
+        Customer.where(email: params[:email]).where.not(import_id: params[:import_id]).first || Customer.new
     end
   end
 end
