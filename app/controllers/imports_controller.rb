@@ -1,16 +1,17 @@
 class ImportsController < ApplicationController
   def index
-    # CHANGE ME
     @created_imports = Import.created
     @started_imports = Import.started
     @finished_imports = Import.finished
   end
 
   def create
-    @import = Import.new(import_params)
-    if @import.save
+    result = Imports::Create.new(import_params).call
+    if result[:success]
       redirect_to imports_url
     else
+      @import = result[:object]
+      @errors = result[:errors]
       render :new
     end
   end
@@ -19,7 +20,15 @@ class ImportsController < ApplicationController
     @import = Import.new
   end
 
+  def start
+    result = Imports::Start.new(params[:id]).call
+
+    # do not handle error case for now
+    redirect_to imports_url if result[:success]
+  end
+
   def edit
+    @import = Import.find(params[:id])
   end
 
   def update

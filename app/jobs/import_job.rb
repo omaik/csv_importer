@@ -1,7 +1,7 @@
 class ImportJob
   include Sidekiq::Worker
 
-  def perform(*_)
-    puts "Hello"
+  def perform(import_id)
+    import = Import.find(import_id)
   end
 end

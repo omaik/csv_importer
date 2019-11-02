@@ -1,6 +1,10 @@
 = form_for @import, html: { class: 'col-md-4 offset-md-4' } do |form|
   %h4.mx-auto
     New Import
+  - if @errors
+    %div.errors
+      Errors:
+      = @errors.join(";")
   .form-group
     = form.label :title, "Title"
     = form.text_field :title, class: 'form-control'
