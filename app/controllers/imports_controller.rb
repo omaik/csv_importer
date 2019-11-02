@@ -4,7 +4,7 @@ class ImportsController < ApplicationController
   def index
     @created_imports = Import.created
     @started_imports = Import.started.decorate
-    @finished_imports = Import.finished
+    @completed_imports = Import.completed
   end
 
   def create
