@@ -28,8 +28,8 @@ describe 'crud operations on pages' do
     expect(view_import_page).to be_displayed
     expect(view_import_page).to have_content(new_title)
 
-    view_import_page.delete_button.click
-    view_import_page.accept_confirm
+
+    view_import_page.delete_import
     expect(imports_page).to be_displayed
     expect(imports_page).to_not have_content(new_title)
   end
@@ -52,5 +52,7 @@ describe 'crud operations on pages' do
         break if view_import_page.has_content?('completed')
       end
     end
+
+    view_import_page.delete_import
   end
 end
