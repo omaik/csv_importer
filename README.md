@@ -42,7 +42,7 @@ TEST_POSTGRES_DB=csv_importer_test
 
 ### Running e2e tests
 They are located in `e2e_tests` folder.
-You need to have chromedriver installed
+You need to have `chromedriver` installed
 
 ```
 # cd e2e_tests
