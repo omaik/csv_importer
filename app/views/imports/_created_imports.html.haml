@@ -1,17 +1,18 @@
-%h4
-  Created imports
-%table.table
-  %thead
-    %tr
-      %th Title
-      %th{'colspan' => 3, 'align' => 'right'}
-  %tbody
-    - @created_imports.each do |import|
+.col-sm-6
+  %h4
+    Created imports
+  %table.table
+    %thead
       %tr
-        %td
-          = import.title
-        %td{'align' => 'right'}
-          = link_to "Start", start_import_path(import), method: :post
-          Delete
-          Edit
+        %th Title
+        %th
+    %tbody
+      - @created_imports.each do |import|
+        %tr
+          %td
+            = import.title
+          %td{'align' => 'right'}
+            = link_to "Start", start_import_path(import), method: :post, class: 'btn btn-primary'
+            = link_to "Edit", edit_import_path(import), class: 'btn btn-success'
+            = link_to "Delete", import_path(import), class: 'btn btn-danger', data: { confirm: 'Are you sure?' }, method: :delete
 

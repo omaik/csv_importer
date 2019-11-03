@@ -1,8 +1,17 @@
+# frozen_string_literal: true
+
 RSpec.describe Customers::Provision do
   describe '#call' do
     let(:import) { create(:import) }
 
-    let(:params) { { date_of_birth: '04/01/1996', first_name: 'Test', last_name: 'Test', email: 'test@test.com', import_id: import.id } }
+    let(:params) do
+      {
+        date_of_birth: '04/01/1996',
+        first_name: 'Test',
+        last_name: 'Test',
+        email: 'test@test.com', import_id: import.id
+      }
+    end
 
     it 'it returns successful result' do
       result = described_class.new(params).call
@@ -17,18 +26,31 @@ RSpec.describe Customers::Provision do
     end
 
     context 'invalid params' do
-      let(:params) { { date_of_birth: '04/01/2018', first_name: 'Test', last_name: 'Test', email: 'test@test.com', import_id: import.id} }
+      let(:params) do
+        {
+          date_of_birth: '04/01/2018',
+          first_name: 'Test',
+          last_name: 'Test',
+          email: 'test@test.com',
+          import_id: import.id
+        }
+      end
 
       it 'returns unsuccessful result' do
-        Timecop.travel(Time.new(2019, 01, 01)) do
+        Timecop.travel(Time.new(2019, 0o1, 0o1)) do
           result = described_class.new(params).call
 
-          expect(result).to include(success: false, errors: ["Date of birth must be bigger than 18 and smaller than 100 years"])
+          expect(result).to include(
+            success: false,
+            errors: [
+              'Date of birth must be bigger than 18 and smaller than 100 years'
+            ]
+          )
         end
       end
 
       it 'doesnt create a customer' do
-        Timecop.travel(Time.new(2019, 01,01)) do
+        Timecop.travel(Time.new(2019, 0o1, 0o1)) do
           described_class.new(params).call
 
           expect(Customer.exists?(email: params[:email])).to eq(false)
@@ -42,21 +64,32 @@ RSpec.describe Customers::Provision do
 
         result = described_class.new(params).call
 
-        expect(result).to include(success: false, errors: ["Email has already been taken"])
+        expect(result).to include(
+          success: false, errors: ['Email has already been taken']
+        )
       end
 
       it 'doesnt update the customer' do
         described_class.new(params).call
 
-        result = described_class.new(params.merge(first_name: 'New')).call
+        described_class.new(params.merge(first_name: 'New')).call
 
-        expect(Customer.find_by(email: params[:email]).first_name).to eq(params[:first_name])
+        expect(Customer.find_by(email: params[:email]).first_name)
+          .to eq(params[:first_name])
       end
     end
 
     context 'different imports' do
       let(:import2) { create(:import) }
-      let(:import2_params) { { date_of_birth: '04/01/1996', first_name: 'Test', last_name: 'New', email: 'test@test.com', import_id: import2.id } }
+      let(:import2_params) do
+        {
+          date_of_birth: '04/01/1996',
+          first_name: 'Test',
+          last_name: 'New',
+          email: 'test@test.com',
+          import_id: import2.id
+        }
+      end
 
       it 'updates customer from the previous import' do
         customer = described_class.new(params).call[:object]

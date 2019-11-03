@@ -5,8 +5,12 @@ class ImportsController < ApplicationController
 
   def index
     @created_imports = Import.created
-    @started_imports = Import.started.decorate
-    @completed_imports = Import.completed
+    @started_imports = StartedImportDecorator.decorate_collection(
+      Import.started
+    )
+    @completed_imports = CompletedImportDecorator.decorate_collection(
+      Import.completed
+    )
   end
 
   def create
@@ -31,8 +35,7 @@ class ImportsController < ApplicationController
     redirect_to imports_url if result[:success]
   end
 
-  def edit
-  end
+  def edit; end
 
   def update
     result = Imports::Update.new(@import, update_params).call

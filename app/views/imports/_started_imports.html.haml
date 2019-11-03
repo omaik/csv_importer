@@ -8,6 +8,7 @@
       %th Progress
       %th Errors
       %th Started
+      %th
   %tbody
     - @started_imports.each do |import|
       %tr
@@ -21,4 +22,7 @@
           = import.errors
         %td
           = import.started_at
+        %td
+          = link_to "Edit", edit_import_path(import), class: 'btn btn-success'
+
 

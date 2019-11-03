@@ -3,7 +3,13 @@
 require 'csv'
 
 class ImportProcessor
-  ALLOWED_HEADERS = %w[email first_name last_name date_of_birth import_id].freeze
+  ALLOWED_HEADERS = %w[
+    email
+    first_name
+    last_name
+    date_of_birth
+    import_id
+  ].freeze
   def initialize(import)
     @import_status = ImportStatus.new(import)
     @import = import
@@ -26,12 +32,12 @@ class ImportProcessor
   attr_reader :import_status, :import
 
   def with_tmp_file(&block)
-    import.file.attachment.open &block
+    import.file.attachment.open(&block)
   end
 
   def calculate_total(file_path)
     total = `wc -l < "#{file_path}"`.to_i - 1
-    import_status.set_total(total)
+    import_status.total(total)
   end
 
   def process(file_path)

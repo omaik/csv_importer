@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Imports
   class Destroy < BaseOperation
     def initialize(import)

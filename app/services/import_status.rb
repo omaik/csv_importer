@@ -7,16 +7,22 @@ class ImportStatus
   end
 
   def start
-    import.started!
-    import.update_attribute(:started_at, Time.zone.now)
+    import.update(
+      status: :started,
+      started_at: Time.zone.now
+    )
   end
 
   def finish
-    import.completed!
-    import.update(processed: import_stats.get_processed, errors_count: import_stats.get_errors_count, completed_at: Time.zone.now)
+    import.update(
+      status: :completed,
+      processed: import_stats.get_processed,
+      errors_count: import_stats.get_errors_count,
+      completed_at: Time.zone.now
+    )
   end
 
-  def set_total(total)
+  def total(total)
     import.update_attribute(:total_count, total)
   end
 

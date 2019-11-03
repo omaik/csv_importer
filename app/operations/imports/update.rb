@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Imports
   class Update < BaseOperation
     def initialize(import, params)

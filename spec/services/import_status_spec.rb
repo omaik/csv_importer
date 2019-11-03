@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 
 RSpec.describe ImportStatus do
   let(:import) do
@@ -50,9 +51,9 @@ RSpec.describe ImportStatus do
     end
   end
 
-  describe '#set_total' do
+  describe '#total' do
     it 'sets total_count attribute for import' do
-      import_status.set_total(50)
+      import_status.total(50)
 
       expect(import.reload.total_count).to eq(50)
     end
@@ -62,7 +63,8 @@ RSpec.describe ImportStatus do
     it 'increments import_stats processed count' do
       import_stats = ImportStatus::ImportStats.new(import)
 
-      expect { import_status.increment }.to change { import_stats.get_processed }.by(1)
+      expect { import_status.increment }
+        .to change { import_stats.get_processed }.by(1)
     end
   end
 
@@ -70,7 +72,8 @@ RSpec.describe ImportStatus do
     it 'increments import_stats count' do
       import_stats = ImportStatus::ImportStats.new(import)
 
-      expect { import_status.increment_errors }.to change { import_stats.get_errors_count }.by(1)
+      expect { import_status.increment_errors }
+        .to change { import_stats.get_errors_count }.by(1)
     end
   end
 end

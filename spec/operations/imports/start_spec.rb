@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Imports::Start do
   let(:import) { create(:import) }
 

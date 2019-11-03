@@ -1,10 +1,19 @@
+# frozen_string_literal: true
+
 RSpec.describe ImportsController, type: :controller do
   describe '#create' do
-    let(:params) { { import: { title: 'Title', file: fixture_file_upload("files/customers.csv", "text/csv")} } }
+    let(:params) do
+      {
+        import: {
+          title: 'Title',
+          file: fixture_file_upload('files/customers.csv', 'text/csv')
+        }
+      }
+    end
     it 'creates the import' do
-      expect {
+      expect do
         post :create, params: params
-      }.to change { Import.count }.by(1)
+      end.to change { Import.count }.by(1)
     end
 
     it 'redirects to the imports page' do
@@ -40,14 +49,14 @@ RSpec.describe ImportsController, type: :controller do
     end
 
     it 'redirects to the imports page' do
-       post :start, params: { id: import.id }
+      post :start, params: { id: import.id }
 
-       expect(response).to redirect_to imports_url
+      expect(response).to redirect_to imports_url
     end
 
     context 'import doesnt exist' do
       it 'returns 404' do
-        post :start, params: { id: 12435 }
+        post :start, params: { id: 12_435 }
 
         expect(response).to have_http_status(:not_found)
       end
@@ -65,7 +74,7 @@ RSpec.describe ImportsController, type: :controller do
 
     context 'import doesnt exist' do
       it 'returns 404' do
-        get :edit, params: { id: 123244 }
+        get :edit, params: { id: 123_244 }
 
         expect(response).to have_http_status(:not_found)
       end
@@ -84,26 +93,26 @@ RSpec.describe ImportsController, type: :controller do
     let(:import) { create(:import) }
 
     it 'updates its title' do
-      put :update, params: { id: import.id, import: {title: 'New'} }
+      put :update, params: { id: import.id, import: { title: 'New' } }
 
       expect(import.reload.title).to eq('New')
     end
 
     it 'redirects to index page' do
-      put :update, params: { id: import.id, import: {title: 'New'} }
+      put :update, params: { id: import.id, import: { title: 'New' } }
 
       expect(response).to redirect_to imports_url
     end
 
     context 'validations errors' do
       it 'renders edit' do
-        put :update, params: { id: import.id, import: {title: ''} }
+        put :update, params: { id: import.id, import: { title: '' } }
 
         expect(response).to render_template(:edit)
       end
 
       it 'doesnt update title' do
-        put :update, params: { id: import.id, import: {title: ''} }
+        put :update, params: { id: import.id, import: { title: '' } }
 
         expect(import.reload.title).to be_present
       end
@@ -111,7 +120,7 @@ RSpec.describe ImportsController, type: :controller do
 
     context 'import doesnt exist' do
       it 'returns 404' do
-        put :update, params: { id: 12344545, import: {title: 'New'} }
+        put :update, params: { id: 12_344_545, import: { title: 'New' } }
 
         expect(response).to have_http_status(:not_found)
       end
@@ -135,11 +144,10 @@ RSpec.describe ImportsController, type: :controller do
 
     context 'when import doesnt exist' do
       it 'returns 404' do
-        delete :destroy, params: { id: 122332232 }
+        delete :destroy, params: { id: 122_332_232 }
 
         expect(response).to have_http_status(:not_found)
       end
     end
-
   end
 end

@@ -6,9 +6,9 @@
       %th Title
       %th Processed
       %th Errors
-      %th Started
+      %th Duration
       %th Completed
-      %th Actions
+      %th
   %tbody
     - @completed_imports.each do |import|
       %tr
@@ -19,9 +19,10 @@
         %td
           = import.errors_count
         %td
-          = import.started_at
+          = import.duration
         %td
           = import.completed_at
         %td
-          Delete
+          = link_to "Edit", edit_import_path(import), class: 'btn btn-success'
+          = link_to "Delete", import_path(import), class: 'btn btn-danger', data: { confirm: 'Are you sure?' }, method: :delete
 

@@ -7,7 +7,11 @@ module Customers
     end
 
     def call
-      customer.update(params) ? success(customer) : error(customer, customer.errors.full_messages)
+      if customer.update(params)
+        success(customer)
+      else
+        error(customer, customer.errors.full_messages)
+      end
     end
 
     private
@@ -15,8 +19,17 @@ module Customers
     attr_reader :import, :params
 
     def customer
-      @customer ||=
-        Customer.where(email: params[:email]).where.not(import_id: params[:import_id]).first || Customer.new
+      @customer ||= existing_customer || new_customer
+    end
+
+    def existing_customer
+      Customer.where(email: params[:email])
+              .where.not(import_id: params[:import_id])
+              .first
+    end
+
+    def new_customer
+      Customer.new
     end
   end
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Customer, type: :model do
   it 'is valid with all values set' do
     customer = build(:customer)
@@ -63,13 +65,17 @@ RSpec.describe Customer, type: :model do
 
     context 'date_of_birth is more than 100 years ago' do
       it 'is invalid' do
-        expect(build(:customer, date_of_birth: 100.years.ago - 2.days)).to be_invalid
+        expect(
+          build(:customer, date_of_birth: 100.years.ago - 2.days)
+        ).to be_invalid
       end
     end
 
     context 'date_of_birth is less than 18 years ago' do
       it 'is invalid' do
-        expect(build(:customer, date_of_birth: 18.years.ago + 2.days)).to be_invalid
+        expect(
+          build(:customer, date_of_birth: 18.years.ago + 2.days)
+        ).to be_invalid
       end
     end
   end

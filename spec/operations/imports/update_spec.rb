@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 RSpec.describe Imports::Update do
   let(:import) { create(:import, title: 'Old') }
 
-  let(:params) { {title: 'New'} }
+  let(:params) { { title: 'New' } }
 
   let(:update_operation) { described_class.new(import, params) }
 
@@ -30,7 +32,9 @@ RSpec.describe Imports::Update do
       it 'returns error result' do
         result = update_operation.call
 
-        expect(result).to include(success: false, errors: ["Title can't be blank"])
+        expect(result).to include(
+          success: false, errors: ["Title can't be blank"]
+        )
       end
     end
   end

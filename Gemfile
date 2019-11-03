@@ -37,12 +37,12 @@ group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
   # https://github.com/rspec/rspec-rails/issues/2177
-  gem 'rspec-rails', git: 'https://github.com/rspec/rspec-rails', branch: 'master'
   gem 'rspec-core', git: 'https://github.com/rspec/rspec-core'
   gem 'rspec-expectations', git: 'https://github.com/rspec/rspec-expectations'
   gem 'rspec-mocks', git: 'https://github.com/rspec/rspec-mocks'
-  gem 'rspec-support', git: 'https://github.com/rspec/rspec-support'
+  gem 'rspec-rails', git: 'https://github.com/rspec/rspec-rails', branch: 'master'
   gem 'rspec-sidekiq'
+  gem 'rspec-support', git: 'https://github.com/rspec/rspec-support'
   gem 'rubocop'
 end
 
@@ -63,9 +63,9 @@ group :test do
   gem 'factory_bot'
   gem 'webdrivers'
 
-  gem "fakeredis"
-  gem 'timecop'
+  gem 'fakeredis'
   gem 'rails-controller-testing'
+  gem 'timecop'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 RSpec.describe Imports::Destroy do
   let(:import) { create(:import) }
   describe '#call' do
-
     it 'destroys import' do
       described_class.new(import).call
 

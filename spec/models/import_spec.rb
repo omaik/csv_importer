@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Import, type: :model do
   describe 'validations' do
   end
@@ -5,7 +7,7 @@ RSpec.describe Import, type: :model do
   describe '.created' do
     it 'return only imports in created state' do
       import1 = create(:import)
-      import2 = create(:import, status: :completed)
+      create(:import, status: :completed)
       import3 = create(:import)
 
       expect(described_class.created).to match_array([import1, import3])
@@ -13,8 +15,8 @@ RSpec.describe Import, type: :model do
   end
 
   describe '.started' do
-    it 'returns imports only in pending and started states ordered by started_at' do
-      import1 = create(:import, status: :completed)
+    it 'returns imports only in pending and started states' do
+      create(:import, status: :completed)
       import2 = create(:import, status: :pending)
       import3 = create(:import, status: :started, started_at: 1.year.ago)
       import4 = create(:import, status: :started, started_at: 1.month.ago)
@@ -24,8 +26,8 @@ RSpec.describe Import, type: :model do
   end
 
   describe '.completed' do
-    it 'returns imports only in completed state ordered by completed_at' do
-      import1 = create(:import, status: :started)
+    it 'returns imports only in completed state' do
+      create(:import, status: :started)
       import2 = create(:import, status: :completed, completed_at: 1.year.ago)
       import3 = create(:import, status: :completed, completed_at: 1.month.ago)
 
