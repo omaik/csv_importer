@@ -34,6 +34,15 @@ RSpec.describe ImportProcessor do
     expect(import.processed).to eq(1)
   end
 
+  context 'state transitions' do
+    it 'moves import to started and then to completed state' do
+      expect_any_instance_of(ImportStatus).to receive(:start)
+      expect_any_instance_of(ImportStatus).to receive(:finish)
+
+      import_processor.call
+    end
+  end
+
   context 'with invalid data' do
     let(:file) { 'spec/fixtures/files/customers_with_one_invalid.csv' }
 
