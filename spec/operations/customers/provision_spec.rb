@@ -37,7 +37,7 @@ RSpec.describe Customers::Provision do
       end
 
       it 'returns unsuccessful result' do
-        Timecop.travel(Time.new(2019, 0o1, 0o1)) do
+        Timecop.travel(Time.new(2019, 1, 1)) do
           result = described_class.new(params).call
 
           expect(result).to include(
@@ -50,7 +50,7 @@ RSpec.describe Customers::Provision do
       end
 
       it 'doesnt create a customer' do
-        Timecop.travel(Time.new(2019, 0o1, 0o1)) do
+        Timecop.travel(Time.new(2019, 1, 1)) do
           described_class.new(params).call
 
           expect(Customer.exists?(email: params[:email])).to eq(false)
