@@ -1,15 +1,14 @@
-.col-sm-6
-  %h4
-    Created imports
-  %table.table#created-imports
-    %thead
+%h4
+  Created imports
+%table.table#created-imports
+  %thead
+    %tr
+      %th Title
+      %th
+  %tbody
+    - @created_imports.each do |import|
       %tr
-        %th Title
-        %th
-    %tbody
-      - @created_imports.each do |import|
-        %tr
-          %td= link_to import.title, import_path(import)
-          %td{'align' => 'right'}
-            = render partial: 'actions', locals: { import: import }
+        %td= link_to import.title, import_path(import)
+        %td{'align' => 'right'}
+          = render partial: 'actions', locals: { import: import }
 
