@@ -2,13 +2,13 @@
 
 module Imports
   class Start < BaseOperation
-    def initialize(import_id)
-      @import = Import.find(import_id)
+    def initialize(import)
+      @import = import
     end
 
     def call
-      import.pending!
       schedule_import_job
+      import.pending!
       success(import)
     rescue StandardError => e
       Rails.logger.error("Exception during import start: #{e.message}")

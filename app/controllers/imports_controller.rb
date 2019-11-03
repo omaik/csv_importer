@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class ImportsController < ApplicationController
+  before_action :find_import, only: %i[start edit update destroy]
+
   def index
     @created_imports = Import.created
     @started_imports = Import.started.decorate
@@ -8,7 +10,7 @@ class ImportsController < ApplicationController
   end
 
   def create
-    result = Imports::Create.new(import_params).call
+    result = Imports::Create.new(create_params).call
     if result[:success]
       redirect_to imports_url
     else
@@ -23,23 +25,44 @@ class ImportsController < ApplicationController
   end
 
   def start
-    result = Imports::Start.new(params[:id]).call
+    result = Imports::Start.new(@import).call
 
     # do not handle error case for now
     redirect_to imports_url if result[:success]
   end
 
   def edit
-    @import = Import.find(params[:id])
   end
 
-  def update; end
+  def update
+    result = Imports::Update.new(@import, update_params).call
 
-  def destroy; end
+    if result[:success]
+      redirect_to imports_url
+    else
+      @errors = result[:errors]
+      render :edit
+    end
+  end
+
+  def destroy
+    result = Imports::Destroy.new(@import).call
+
+    # do not handle error case for now
+    redirect_to imports_url if result[:success]
+  end
 
   private
 
-  def import_params
+  def create_params
     params.require(:import).permit(:title, :file)
+  end
+
+  def update_params
+    params.require(:import).permit(:title)
+  end
+
+  def find_import
+    @import = Import.find(params[:id])
   end
 end
