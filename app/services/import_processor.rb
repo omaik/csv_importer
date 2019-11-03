@@ -17,6 +17,16 @@ class ImportProcessor
   def call
     import_status.start
 
+    perform_import
+
+    import_status.finish
+  end
+
+  private
+
+  attr_reader :import_status, :import, :file_path
+
+  def perform_import
     with_tmp_file do |file|
       @file_path = file.path
       if valid_headers?
@@ -26,13 +36,7 @@ class ImportProcessor
         import_status.increment_errors
       end
     end
-
-    import_status.finish
   end
-
-  private
-
-  attr_reader :import_status, :import, :file_path
 
   def with_tmp_file(&block)
     import.file.attachment.open(&block)

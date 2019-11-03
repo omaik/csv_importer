@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe StartedImportDecorator do
   let(:import) { create(:import) }
   let(:import_status) { ImportStatus.new(import) }
@@ -55,7 +57,7 @@ RSpec.describe StartedImportDecorator do
         Timecop.freeze do
           import.update(status: :started, started_at: 3.hours.ago)
 
-          expect(import_decorator.started_at).to eq("about 3 hours ago")
+          expect(import_decorator.started_at).to eq('about 3 hours ago')
         end
       end
     end
