@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class StartedImportDecorator < ImportDecorator
-  def percentage
+  def progress
     if pending?
       'pending'
     elsif total_count.to_i.zero?
