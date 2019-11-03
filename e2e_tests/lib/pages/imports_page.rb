@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ImportsPage < SitePrism::Page
   set_url '/imports'
 

@@ -6,6 +6,7 @@ AllCops:
     - db/**/*
     - bin/**/*
     - vendor/**/*
+    - e2e_tests/vendor/**/*
     - node_modules/**/*
     - spec/spec_helper.rb
     - spec/rails_helper.rb

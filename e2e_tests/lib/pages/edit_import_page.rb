@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class EditImportPage < SitePrism::Page
   set_url '/imports{/id}/edit'
   element :title, '#import_title'

@@ -1,4 +1,3 @@
-
 # frozen_string_literal: true
 
 require 'spec_helper'
@@ -21,7 +20,9 @@ describe 'crud operations on pages' do
     new_import_page.fill_form(import_attributes)
     expect(imports_page).to be_displayed
 
-    created_row = imports_page.find_created_import_row(import_attributes[:title])
+    created_row = imports_page.find_created_import_row(
+      import_attributes[:title]
+    )
     imports_page.edit_row(created_row)
     expect(edit_import_page).to be_displayed
 
@@ -33,7 +34,8 @@ describe 'crud operations on pages' do
 
     imports_page.delete_row(updated_row)
 
-    expect { imports_page.find_created_import_row(new_title) }.to raise_error(Capybara::ElementNotFound)
+    expect { imports_page.find_created_import_row(new_title) }
+      .to raise_error(Capybara::ElementNotFound)
   end
 
   it 'runs import' do
@@ -46,16 +48,17 @@ describe 'crud operations on pages' do
     new_import_page.fill_form(import_attributes)
     expect(imports_page).to be_displayed
 
-    created_row = imports_page.find_created_import_row(import_attributes[:title])
+    created_row = imports_page.find_created_import_row(
+      import_attributes[:title]
+    )
     imports_page.start(created_row)
 
     completed_row = Timeout.timeout(Capybara.default_max_wait_time) do
       loop do
-        begin
-          page.evaluate_script("window.location.reload()")
-          break imports_page.find_completed_import_row(import_attributes[:title])
-        rescue Capybara::ElementNotFound
-        end
+        page.evaluate_script('window.location.reload()')
+        break imports_page.find_completed_import_row(import_attributes[:title])
+      rescue Capybara::ElementNotFound
+        puts 'Element not found, retrying'
       end
     end
 
