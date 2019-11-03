@@ -9,6 +9,7 @@ class ImportProcessor
     last_name
     date_of_birth
   ].freeze
+
   def initialize(import)
     @import_status = ImportStatus.new(import)
     @import = import
