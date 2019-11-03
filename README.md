@@ -47,5 +47,6 @@ You need to have `chromedriver` installed
 ```
 # cd e2e_tests
 # bundle install
+// before that make sure your local env up and healthy
 # bundle exec rspec
 ```
