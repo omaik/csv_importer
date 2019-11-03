@@ -8,7 +8,6 @@ class ImportProcessor
     first_name
     last_name
     date_of_birth
-    import_id
   ].freeze
   def initialize(import)
     @import_status = ImportStatus.new(import)
@@ -20,8 +19,12 @@ class ImportProcessor
 
     with_tmp_file do |file|
       @file_path = file.path
-      calculate_total(file.path)
-      process(file.path)
+      if valid_headers?
+        calculate_total
+        process
+      else
+        import_status.increment_errors
+      end
     end
 
     import_status.finish
@@ -29,27 +32,28 @@ class ImportProcessor
 
   private
 
-  attr_reader :import_status, :import
+  attr_reader :import_status, :import, :file_path
 
   def with_tmp_file(&block)
     import.file.attachment.open(&block)
   end
 
-  def calculate_total(file_path)
+  def valid_headers?
+    headers = CSV.foreach(file_path).first
+
+    headers.sort == ALLOWED_HEADERS.sort
+  end
+
+  def calculate_total
     total = `wc -l < "#{file_path}"`.to_i - 1
     import_status.total(total)
   end
 
-  def process(file_path)
+  def process
     CSV.foreach(file_path, headers: true) do |row|
       row = row.to_h.with_indifferent_access.merge(import_id: import.id)
-      if row_valid?(row)
-        Sidekiq.logger.info("Processing row #{row.inspect}")
-        process_row(row)
-      else
-        import_status.increment_errors
-        break
-      end
+      Sidekiq.logger.info("Processing row #{row.inspect}")
+      process_row(row)
     end
   end
 
@@ -61,10 +65,5 @@ class ImportProcessor
     else
       import_status.increment_errors
     end
-  end
-
-  # FIXME
-  def row_valid?(row)
-    row.keys.sort == ALLOWED_HEADERS.sort
   end
 end
