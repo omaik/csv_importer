@@ -1,0 +1,5 @@
+- if import.created?
+  = link_to "Start", start_import_path(import), method: :post, class: 'btn btn-primary'
+= link_to "Edit", edit_import_path(import), class: 'btn btn-success'
+- unless import.started?
+  = link_to "Delete", import_path(import), class: 'btn btn-danger', data: { confirm: 'Are you sure?' }, method: :delete

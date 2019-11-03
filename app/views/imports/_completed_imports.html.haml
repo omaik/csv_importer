@@ -12,12 +12,11 @@
   %tbody
     - @completed_imports.each do |import|
       %tr
-        %td= import.title
+        %td= link_to import.title, import_path(import)
         %td= import.processed
         %td= import.errors_count
         %td= import.duration
         %td= import.completed_at
-        %td
-          = link_to "Edit", edit_import_path(import), class: 'btn btn-success'
-          = link_to "Delete", import_path(import), class: 'btn btn-danger', data: { confirm: 'Are you sure?' }, method: :delete
+        %td= render partial: 'actions', locals: {import: import}
+
 

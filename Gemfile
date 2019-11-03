@@ -41,7 +41,6 @@ group :development, :test do
   gem 'rspec-expectations', git: 'https://github.com/rspec/rspec-expectations'
   gem 'rspec-mocks', git: 'https://github.com/rspec/rspec-mocks'
   gem 'rspec-rails', git: 'https://github.com/rspec/rspec-rails', branch: 'master'
-  gem 'rspec-sidekiq'
   gem 'rspec-support', git: 'https://github.com/rspec/rspec-support'
   gem 'rubocop'
 end
@@ -59,6 +58,7 @@ group :test do
   gem 'factory_bot'
   gem 'fakeredis'
   gem 'rails-controller-testing'
+  gem 'rspec-sidekiq'
   gem 'timecop'
 end
 

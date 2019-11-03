@@ -9,9 +9,7 @@
     %tbody
       - @created_imports.each do |import|
         %tr
-          %td= import.title
+          %td= link_to import.title, import_path(import)
           %td{'align' => 'right'}
-            = link_to "Start", start_import_path(import), method: :post, class: 'btn btn-primary'
-            = link_to "Edit", edit_import_path(import), class: 'btn btn-success'
-            = link_to "Delete", import_path(import), class: 'btn btn-danger', data: { confirm: 'Are you sure?' }, method: :delete
+            = render partial: 'actions', locals: { import: import }
 

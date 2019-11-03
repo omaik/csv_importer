@@ -2,9 +2,7 @@
 
 class StartedImportDecorator < ImportDecorator
   def progress
-    if pending?
-      'pending'
-    elsif total_count.to_i.zero?
+    if total_count.to_i.zero?
       'Calculating'
     else
       "#{percentage_of_done.round(6)} %"
@@ -15,8 +13,17 @@ class StartedImportDecorator < ImportDecorator
     import_status.errors
   end
 
-  def started_at
-    "#{h.time_ago_in_words(read_attribute(:started_at))} ago" if started?
+  def processed
+    import_status.processed
+  end
+
+  def details
+    super + [
+      { title: 'Processed', value: processed },
+      { title: 'Errors', value: errors },
+      { title: 'Total', value: total_count },
+      { title: 'Progress', value: progress }
+    ]
   end
 
   private

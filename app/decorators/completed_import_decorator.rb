@@ -11,4 +11,14 @@ class CompletedImportDecorator < ImportDecorator
       read_attribute(:completed_at)
     )
   end
+
+  def details
+    super + [
+      { title: 'Started at', value: started_at },
+      { title: 'Completed at', value: completed_at },
+      { title: 'Duration', value: duration },
+      { title: 'Processed', value: processed },
+      { title: 'Errors', value: errors_count }
+    ]
+  end
 end

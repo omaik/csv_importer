@@ -12,17 +12,11 @@
   %tbody
     - @started_imports.each do |import|
       %tr
-        %td
-          = import.title
-        %td
-          = import.total_count
-        %td
-          = import.progress
-        %td
-          = import.errors
-        %td
-          = import.started_at
-        %td
-          = link_to "Edit", edit_import_path(import), class: 'btn btn-success'
+        %td= link_to import.title, import_path(import)
+        %td= import.total_count
+        %td= import.progress
+        %td= import.errors
+        %td= import.started_at
+        %td= link_to "Edit", edit_import_path(import), class: 'btn btn-success'
 
 

@@ -1,0 +1,18 @@
+%h4
+  Import details
+
+%div.col-sm-6.offset-sm-3
+  %table.table
+    %thead
+      %th
+        Attribute
+      %th
+        Details
+
+    %tbody
+      - @import.details.each do |detail|
+        %tr
+          %td=detail[:title]
+          %td=detail[:value]
+  .actions
+    = render partial: 'actions', locals: { import: @import }

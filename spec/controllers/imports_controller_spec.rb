@@ -16,10 +16,10 @@ RSpec.describe ImportsController, type: :controller do
       end.to change { Import.count }.by(1)
     end
 
-    it 'redirects to the imports page' do
+    it 'redirects to the import page' do
       post :create, params: params
 
-      expect(response).to redirect_to imports_url
+      expect(response).to redirect_to %r{imports/\d+}
     end
 
     context 'validation fails' do
@@ -51,7 +51,7 @@ RSpec.describe ImportsController, type: :controller do
     it 'redirects to the imports page' do
       post :start, params: { id: import.id }
 
-      expect(response).to redirect_to imports_url
+      expect(response).to redirect_to import_url(import)
     end
 
     context 'import doesnt exist' do
@@ -89,6 +89,16 @@ RSpec.describe ImportsController, type: :controller do
     end
   end
 
+  describe '#show' do
+    let(:import) { create(:import) }
+
+    it 'renders show template' do
+      get :show, params: { id: import.id }
+
+      expect(response).to render_template(:show)
+    end
+  end
+
   describe '#update' do
     let(:import) { create(:import) }
 
@@ -101,7 +111,7 @@ RSpec.describe ImportsController, type: :controller do
     it 'redirects to index page' do
       put :update, params: { id: import.id, import: { title: 'New' } }
 
-      expect(response).to redirect_to imports_url
+      expect(response).to redirect_to import_url(import)
     end
 
     context 'validations errors' do
