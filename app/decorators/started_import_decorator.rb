@@ -19,6 +19,7 @@ class StartedImportDecorator < ImportDecorator
 
   def details
     super + [
+      { title: 'Started at', value: started_at },
       { title: 'Processed', value: processed },
       { title: 'Errors', value: errors },
       { title: 'Total', value: total_count },
