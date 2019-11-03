@@ -1,6 +1,6 @@
 %h4
   Completed imports
-%table.table
+%table.table#completed-imports
   %thead
     %tr
       %th Title
@@ -12,16 +12,11 @@
   %tbody
     - @completed_imports.each do |import|
       %tr
-        %td
-          = import.title
-        %td
-          = import.processed
-        %td
-          = import.errors_count
-        %td
-          = import.duration
-        %td
-          = import.completed_at
+        %td= import.title
+        %td= import.processed
+        %td= import.errors_count
+        %td= import.duration
+        %td= import.completed_at
         %td
           = link_to "Edit", edit_import_path(import), class: 'btn btn-success'
           = link_to "Delete", import_path(import), class: 'btn btn-danger', data: { confirm: 'Are you sure?' }, method: :delete

@@ -1,7 +1,7 @@
 .col-sm-6
   %h4
     Created imports
-  %table.table
+  %table.table#created-imports
     %thead
       %tr
         %th Title
@@ -9,8 +9,7 @@
     %tbody
       - @created_imports.each do |import|
         %tr
-          %td
-            = import.title
+          %td= import.title
           %td{'align' => 'right'}
             = link_to "Start", start_import_path(import), method: :post, class: 'btn btn-primary'
             = link_to "Edit", edit_import_path(import), class: 'btn btn-success'

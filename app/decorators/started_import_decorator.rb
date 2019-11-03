@@ -4,6 +4,8 @@ class StartedImportDecorator < ImportDecorator
   def percentage
     if pending?
       'pending'
+    elsif total_count.to_i.zero?
+      'Calculating'
     else
       "#{percentage_of_done.round(6)} %"
     end
@@ -14,7 +16,7 @@ class StartedImportDecorator < ImportDecorator
   end
 
   def started_at
-    "#{h.time_ago_in_words(read_attribute(:started_at))} ago"
+    "#{h.time_ago_in_words(read_attribute(:started_at))} ago" if started?
   end
 
   private
