@@ -26,7 +26,7 @@ gem 'jbuilder', '~> 2.7'
 # Use Redis adapter to run Action Cable in production
 gem 'redis', '~> 4.0'
 
-gem 'sidekiq'
+gem 'sidekiq', '5.2.7'
 
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
