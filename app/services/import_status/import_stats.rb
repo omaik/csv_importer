@@ -4,7 +4,7 @@ class ImportStatus
   class ImportStats
     def initialize(import)
       @import = import
-      @redis = Redis.new
+      @redis = Redis.new(ur: ENV['REDISTOGO_URL'])
     end
 
     %i[processed errors_count].each do |attribute|
